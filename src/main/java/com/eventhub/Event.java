@@ -16,7 +16,7 @@ public class Event {
     private String description;
 
     @Column(nullable = false)
-    private LocalDateTime eventDate; // 3. The date and time
+    private LocalDateTime eventDate;
 
     private String location;
 
