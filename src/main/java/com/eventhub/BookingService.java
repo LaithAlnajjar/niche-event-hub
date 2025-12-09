@@ -1,0 +1,40 @@
+package com.eventhub;
+
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDateTime;
+
+public class BookingService {
+
+    private final BookingRepository bookingRepository;
+    private final EventRepository eventRepository;
+    private final UserRepository userRepository;
+
+    @Autowired
+    public BookingService(BookingRepository bookingRepository,EventRepository eventRepository, UserRepository userRepository) {
+        this.bookingRepository = bookingRepository;
+        this.eventRepository = eventRepository;
+        this.userRepository = userRepository;
+    }
+
+    @Transactional
+    public void registerUserForEvent(long userId, long eventId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found with ID: " + eventId));
+
+        if (event.getAttendeeCount() >= event.getCapacity()) {
+            throw new RuntimeException("Event capacity limit reached.");
+        }
+
+        if (bookingRepository.existsByUserAndEvent(user, event)) {
+            throw new RuntimeException("User is already registered for this event.");
+        }
+
+        Booking booking = new Booking(user, event, LocalDateTime.now(), "CONFIRMED");
+        bookingRepository.save(booking);
+
+    }
+
+
+}
