@@ -14,32 +14,6 @@ public class NicheEventHubApplication {
 		SpringApplication.run(NicheEventHubApplication.class, args);
 	}
 
-	@Component
-	class DatabaseTestRunner implements CommandLineRunner {
 
-		private final UserRepository userRepository;
-		private final EventRepository eventRepository;
-
-		public DatabaseTestRunner(UserRepository userRepository, EventRepository eventRepository) {
-			this.userRepository = userRepository;
-			this.eventRepository = eventRepository;
-		}
-
-		@Override
-		public void run(String... args) throws Exception {
-			User testUser = new User("test_user", "test@example.com");
-			userRepository.save(testUser);
-			System.out.println("Saved user: " + testUser.getUsername());
-			Event testEvent = new Event(
-					"My First Tech Meetup",
-					"A test event for our Spring Boot app.",
-					LocalDateTime.now().plusDays(7),
-					"123 Main St",
-					50
-			);
-			eventRepository.save(testEvent);
-			System.out.println("Saved event: " + testEvent.getEventName());
-		}
-	}
 
 }

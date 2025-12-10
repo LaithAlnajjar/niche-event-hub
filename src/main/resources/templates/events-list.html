@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:each="event : ${events}">
+    <div th:text="${event.id}">1</div>
+    <div><a href="#" th:text="${event.eventName}">Title ...</a></div>
+    <div th:text="${event.description}">Text ...</div>
+</div>
+</body>
+</html>
