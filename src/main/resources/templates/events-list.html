@@ -1,14 +1,142 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niche Event Hub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+        }
+
+        .event-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-body {
+            padding: 20px;
+            flex-grow: 1; /* Pushes the footer down */
+        }
+
+        .event-title {
+            margin: 0 0 10px 0;
+            font-size: 1.4em;
+            color: #2c3e50;
+        }
+
+        .event-title a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .event-title a:hover {
+            color: #3498db;
+        }
+
+        .event-meta {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .event-description {
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .card-footer {
+            padding: 15px;
+            background-color: #ecf0f1;
+            text-align: right;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .btn:hover {
+            background-color: #27ae60;
+        }
+    </style>
 </head>
 <body>
-<div th:each="event : ${events}">
-    <div th:text="${event.id}">1</div>
-    <div><a href="#" th:text="${event.eventName}">Title ...</a></div>
-    <div th:text="${event.description}">Text ...</div>
+
+<h1>Upcoming Events</h1>
+
+<div class="event-container">
+    <div class="event-card" th:each="event : ${events}">
+
+        <div class="card-header">
+            <span th:text="${#temporals.format(event.eventDate, 'MMM dd, yyyy')}">Date</span>
+            <span th:text="${event.location}">Location</span>
+        </div>
+
+        <div class="card-body">
+            <h2 class="event-title">
+                <a th:href="@{/events/{id}(id=${event.id})}" th:text="${event.eventName}">Event Name</a>
+            </h2>
+
+            <div class="event-meta">
+                <span th:text="${event.capacity - event.attendeeCount} + ' spots left'">10 spots left</span>
+            </div>
+
+            <p class="event-description" th:text="${event.description}">
+                Description goes here...
+            </p>
+        </div>
+
+        <div class="card-footer">
+            <a th:href="@{/events/{id}(id=${event.id})}" class="btn">View Details</a>
+        </div>
+    </div>
 </div>
+
 </body>
 </html>
