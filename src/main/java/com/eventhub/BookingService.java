@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class BookingService {
@@ -18,6 +19,10 @@ public class BookingService {
         this.bookingRepository = bookingRepository;
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
+    }
+
+    public List<Event> getEventsForUser(Long userId) {
+        return bookingRepository.findEventsByUserId(userId);
     }
 
     @Transactional
@@ -36,7 +41,8 @@ public class BookingService {
         Booking booking = new Booking(user, event, LocalDateTime.now(), "CONFIRMED");
         bookingRepository.save(booking);
 
-        event.setAttendeeCount(event.getAttendeeCount() - 1);
+        event.setAttendeeCount(event.getAttendeeCount() + 1);
+
         eventRepository.save(event);
 
     }

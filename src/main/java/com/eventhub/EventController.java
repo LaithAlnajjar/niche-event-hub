@@ -45,4 +45,13 @@ public class EventController {
         }
         return "redirect:/events/" + id; // Send them back to the detail page to see the error
     }
+
+    @GetMapping("/my-events")
+    public String getMyEvents(@RequestParam Long userId, Model model) {
+       List<Event> myEvents = bookingService.getEventsForUser(userId);
+
+        model.addAttribute("events", myEvents);
+        model.addAttribute("userId", userId); // Pass ID back so we know who is looking
+        return "my-dashboard";
+    }
 }
