@@ -36,6 +36,9 @@ public class BookingService {
         Booking booking = new Booking(user, event, LocalDateTime.now(), "CONFIRMED");
         bookingRepository.save(booking);
 
+        event.setAttendeeCount(event.getAttendeeCount() - 1);
+        eventRepository.save(event);
+
     }
 
 
