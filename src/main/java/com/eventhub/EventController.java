@@ -3,6 +3,7 @@ package com.eventhub;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; // 1. Import Model
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -34,11 +35,14 @@ public class EventController {
         return "event-detail";
     }
 
-
     @PostMapping("/events/{id}/register")
-    public String bookEvent(@PathVariable Long id, @RequestParam Long userId) {
-
-        bookingService.registerUserForEvent(userId, id);
-        return "redirect:/events";
+    public String bookEvent(@PathVariable Long id, @RequestParam Long userId, RedirectAttributes redirectAttributes) {
+        try {
+            bookingService.registerUserForEvent(userId, id);
+            redirectAttributes.addFlashAttribute("successMessage", "You are booked!");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/events/" + id; // Send them back to the detail page to see the error
     }
 }
