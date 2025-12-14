@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+      <html lang="en" xmlns:th="http://www.thymeleaf.org">
+      <head>
+      <meta charset="UTF-8">
+      <title>Login - Niche Event Hub</title>
+  <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f4f7f6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .login-card {
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+    }
+    h1 { color: #2c3e50; margin-bottom: 20px; }
+    input[type="number"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box; /* Ensures padding doesn't widen the box */
+        font-size: 16px;
+    }
+    .btn {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .btn:hover { background-color: #2980b9; }
+    .error-msg {
+        color: #e74c3c;
+        background-color: #fadbd8;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    .hint { color: #7f8c8d; font-size: 0.9em; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<div class="login-card">
+  <h1>Welcome Back</h1>
+
+  <div th:if="${error}" class="error-msg" th:text="${error}"></div>
+
+  <form action="/login" method="post">
+    <label for="userId" style="display:block; text-align:left; margin-bottom:5px; color:#666;">Enter User ID:</label>
+    <input type="number" id="userId" name="userId" placeholder="e.g. 1" required autofocus>
+
+    <button type="submit" class="btn">Log In</button>
+  </form>
+
+  <div class="hint">
+    (Testing Hint: Use ID 1, 2, or 3)
+  </div>
+</div>
+
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>
