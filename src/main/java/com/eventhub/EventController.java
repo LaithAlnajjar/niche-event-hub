@@ -1,5 +1,6 @@
 package com.eventhub;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; // 1. Import Model
 import org.springframework.web.bind.annotation.*;
@@ -36,14 +37,19 @@ public class EventController {
     }
 
     @PostMapping("/events/{id}/register")
-    public String bookEvent(@PathVariable Long id, @RequestParam Long userId, RedirectAttributes redirectAttributes) {
+    public String bookEvent(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
         try {
-            bookingService.registerUserForEvent(userId, id);
+            bookingService.registerUserForEvent(currentUser.getId(), id);
             redirectAttributes.addFlashAttribute("successMessage", "You are booked!");
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/events/" + id; // Send them back to the detail page to see the error
+        return "redirect:/events/" + id;
     }
 
     @GetMapping("/my-events")
@@ -51,7 +57,7 @@ public class EventController {
        List<Event> myEvents = bookingService.getEventsForUser(userId);
 
         model.addAttribute("events", myEvents);
-        model.addAttribute("userId", userId); // Pass ID back so we know who is looking
+        model.addAttribute("userId", userId); //
         return "my-dashboard";
     }
 }

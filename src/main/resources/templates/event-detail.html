@@ -66,15 +66,7 @@
     <h3>Ready to join?</h3>
 
     <form th:action="@{/events/{id}/register(id=${event.id})}" method="post">
-      <div class="input-group">
-        <label>Enter your User ID:</label>
-        <input type="number" name="userId" placeholder="e.g. 1" required>
-
-        <button type="submit" class="btn-register">Register Now</button>
-      </div>
-      <p style="font-size: 0.8em; color: #666; margin-top: 5px;">
-        (Simulating a logged-in user. Use ID 1 for your test user)
-      </p>
+      <button type="submit" class="btn-register">Register Now</button>
     </form>
   </div>
 
